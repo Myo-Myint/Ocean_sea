@@ -119,7 +119,13 @@ scene.add(camera)
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
+controls.minDistance = 1
+controls.maxDistance = 16
+// controls.minZoom = 0.5;
+// controls.maxZoom = 2;
 
+gui.add(controls, 'minDistance').min(0).max(2000).step(0.001).name("minZoom")
+gui.add(controls, 'maxDistance').min(0).max(2000).step(0.001).name("maxZoom")
 /**
  * Renderer
  */
