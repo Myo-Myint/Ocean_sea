@@ -46,7 +46,7 @@ gui.addColor(debugObject, 'surfaceColor').onChange(() => { waterMaterial.uniform
 const waterMaterial = new THREE.ShaderMaterial({
     vertexShader: waterVertexShader,
     fragmentShader: waterFragmentShader,
-    fog: true,
+    fog: false,
     uniforms:
     {
         uTime: { value: 0 },
