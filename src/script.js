@@ -20,7 +20,7 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 //fog 
-const fog = new THREE.Fog('#d1d1d1', 1, 15)
+const fog = new THREE.Fog('#d1d1d1', 4, 15)
 scene.fog = fog
 
 /**
@@ -119,16 +119,16 @@ scene.add(camera)
 // Controls
 const controls = new OrbitControls(camera, canvas)
 controls.enableDamping = true
-controls.minDistance = 1
-controls.maxDistance = 16
+controls.minDistance = 2
+controls.maxDistance = 13
 
-controls.minPolarAngle = 0;
+controls.minPolarAngle = 0.7;
 controls.maxPolarAngle = 1.442;
-// gui.add(controls, 'minDistance').min(0).max(2000).step(0.001).name("minZoom")
-// gui.add(controls, 'maxDistance').min(0).max(2000).step(0.001).name("maxZoom")
+gui.add(controls, 'minDistance').min(0).max(2000).step(0.001).name("minZoom")
+gui.add(controls, 'maxDistance').min(0).max(2000).step(0.001).name("maxZoom")
 
-// gui.add(controls, 'minPolarAngle').min(0).max(Math.PI * 2).step(0.001).name("minRotationUp&Down")
-// gui.add(controls, 'maxPolarAngle').min(0).max(Math.PI * 2).step(0.001).name("maxRotationUp&Down")
+gui.add(controls, 'minPolarAngle').min(0).max(Math.PI * 2).step(0.001).name("minRotationUp&Down")
+gui.add(controls, 'maxPolarAngle').min(0).max(Math.PI * 2).step(0.001).name("maxRotationUp&Down")
 /**
  * Renderer
  */
