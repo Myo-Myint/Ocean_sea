@@ -2,6 +2,7 @@ import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
+import * as Stats from 'stats.js'
 import waterVertexShader from './shaders/water/vertex.glsl'
 import waterFragmentShader from './shaders/water/fragment.glsl'
 
@@ -12,6 +13,11 @@ import waterFragmentShader from './shaders/water/fragment.glsl'
 const gui = new dat.GUI({ width: 340 })
 const debugObject = {}
 gui.close()
+
+//stats
+var stats = new Stats();
+stats.showPanel( 1 );
+document.body.appendChild( stats.dom );
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -27,7 +33,7 @@ scene.fog = fog
  * Water
  */
 // Geometry
-const waterGeometry = new THREE.PlaneBufferGeometry(40, 40, 512, 512)
+const waterGeometry = new THREE.PlaneBufferGeometry(40, 40, 312, 312)
 
 // Colors
 debugObject.depthColor = '#186691'
@@ -40,7 +46,7 @@ gui.addColor(debugObject, 'surfaceColor').onChange(() => { waterMaterial.uniform
 const waterMaterial = new THREE.ShaderMaterial({
     vertexShader: waterVertexShader,
     fragmentShader: waterFragmentShader,
-    fog: true,
+    fog: false,
     uniforms:
     {
         uTime: { value: 0 },
@@ -71,7 +77,6 @@ gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'x').min(0).max(10).ste
 gui.add(waterMaterial.uniforms.uBigWavesFrequency.value, 'y').min(0).max(10).step(0.001).name('uBigWavesFrequencyY')
 gui.add(waterMaterial.uniforms.uBigWavesSpeed, 'value').min(0).max(4).step(0.001).name('uBigWavesSpeed')
 
-
 gui.add(waterMaterial.uniforms.uSmallWavesElevation, 'value').min(0).max(1).step(0.001).name('uSmallWavesElevation')
 gui.add(waterMaterial.uniforms.uSmallWavesFrequency, 'value').min(0).max(30).step(0.001).name('uSmallWavesFrequency')
 gui.add(waterMaterial.uniforms.uSmallWavesSpeed, 'value').min(0).max(4).step(0.001).name('uSmallWavesSpeed')
@@ -79,6 +84,10 @@ gui.add(waterMaterial.uniforms.uSmallIterations, 'value').min(0).max(5).step(1).
 
 gui.add(waterMaterial.uniforms.uColorOffset, 'value').min(0).max(1).step(0.001).name('uColorOffset')
 gui.add(waterMaterial.uniforms.uColorMultiplier, 'value').min(0).max(10).step(0.001).name('uColorMultiplier')
+
+gui.add(waterMaterial, 'fog')
+    .name('Fog')
+    .onChange(waterMaterial.needsUpdate = true)
 
 // Mesh
 const water = new THREE.Mesh(waterGeometry, waterMaterial)
@@ -146,6 +155,8 @@ const clock = new THREE.Clock()
 
 const tick = () =>
 {
+    stats.begin();
+
     const elapsedTime = clock.getElapsedTime()
 
     // Water
@@ -159,6 +170,8 @@ const tick = () =>
 
     // Call tick again on the next frame
     window.requestAnimationFrame(tick)
+
+    stats.end();
 }
 
 tick()
