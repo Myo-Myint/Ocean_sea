@@ -85,9 +85,9 @@ gui.add(waterMaterial.uniforms.uSmallIterations, 'value').min(0).max(5).step(1).
 gui.add(waterMaterial.uniforms.uColorOffset, 'value').min(0).max(1).step(0.001).name('uColorOffset')
 gui.add(waterMaterial.uniforms.uColorMultiplier, 'value').min(0).max(10).step(0.001).name('uColorMultiplier')
 
-gui.add(waterMaterial, 'fog')
-    .name('Fog')
-    .onChange(waterMaterial.needsUpdate = true)
+// gui.add(waterMaterial, 'fog')
+//     .name('Fog')
+//     .onChange(waterMaterial.needsUpdate = true)
 
 // Mesh
 const water = new THREE.Mesh(waterGeometry, waterMaterial)
